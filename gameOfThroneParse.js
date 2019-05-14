@@ -1,11 +1,17 @@
 const rp = require('request-promise');
-const url = 'https://en.wikipedia.org/wiki/The_Wolf_and_the_Lion';
+const $ = require('cheerio');
 
-rp(url)
+const gameOfThronesParse = function(url) {
+    return rp(url)
     .then(function(html) {
-        console.log(html);
-    })
+        return {
+       name: $('.firstHeading', html).text(),
+        headlines: $('.mw-headline', html).text(),
+    };
+})
     .catch(function(err) {
         //handle error
     });
+};
 
+module.exports = gameOfThronesParse;
